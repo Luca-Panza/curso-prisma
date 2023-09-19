@@ -20,16 +20,12 @@ async function createPost(post: CreatePost) {
   const result = await prisma.post.create({
     data: post,
   });
-
-  return result;
 }
 
 async function deletePost(id: number) {
   const result = await prisma.post.delete({
     where: { id },
   });
-
-  return result;
 }
 
 const postRepository = {
