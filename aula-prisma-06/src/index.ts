@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import prisma from "./database/database";
 import { validateSchemaMiddleware } from "./middlewares/schema-middleware";
 import { Favorite } from "@prisma/client";
-import { favoriteSchema } from "../schemas/favorite-schema";
+import { favoriteSchema } from "./schemas/favorite-schema";
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ app.get("/favorites", async (req: Request, res: Response) => {
     const favorites = await prisma.favorite.findMany();
     res.send(favorites);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.sendStatus(500);
   }
 });
@@ -27,15 +27,14 @@ app.post("/favorites", validateSchemaMiddleware(favoriteSchema), async (req: Req
   try {
     const body = req.body as CreateFavorite;
     const favorite = await prisma.favorite.create({
-      data: body
+      data: body,
     });
 
     res.status(201).send(favorite);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.sendStatus(500);
   }
-
 });
 
 const port = Number(process.env.PORT) || 5000;

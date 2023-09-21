@@ -1,23 +1,28 @@
-import db from "../database/database";
+import { Product } from "@prisma/client";
+import prisma from "../database/database";
 
-const TABLE_NAME = "products";
+export type CreateProduct = Omit<Product, "id" | "createAt">;
 
-async function getProducts() {
-  // TODO
+function getProducts() {
+  return prisma.product.findMany();
 }
 
-async function getProduct(id: number) {
-  // TODO
+function getProduct(id: number) {
+  return prisma.product.findFirst({
+    where: { id },
+  });
 }
 
-async function createProduct(product) {
-  // TODO
+async function createProduct(product: CreateProduct) {
+  return prisma.product.create({
+    data: product,
+  });
 }
 
 const productRepository = {
   getProduct,
   getProducts,
-  createProduct
-}
+  createProduct,
+};
 
 export default productRepository;
